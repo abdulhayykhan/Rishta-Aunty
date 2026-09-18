@@ -70,12 +70,21 @@ def roast():
     # Deterministic fallback ready instantly
     fallback_roast = generate_fallback_roast(profile, repos)
 
-    api_key = os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY")
-    grok_model = os.getenv("GROK_MODEL", "grok-2-latest")
+    api_key = os.getenv("GROK_API_KEY") or os.getenv("GROQ_API_KEY") or os.getenv("XAI_API_KEY")
 
     if not api_key:
-        print("[Rishta Aunty Python] No GROK_API_KEY provided; returning fallback roast.")
+        print("[Rishta Aunty Python] No API key provided; returning fallback roast.")
         return jsonify({"source": "fallback", "data": fallback_roast})
+
+    # Auto-detect whether user provided a GroqCloud key (gsk_...) or xAI Grok key
+    is_groqcloud = api_key.startswith("gsk_") or bool(os.getenv("GROQ_API_KEY"))
+    
+    if is_groqcloud:
+        api_url = "https://api.groq.com/openai/v1/chat/completions"
+        model_name = os.getenv("GROK_MODEL") or os.getenv("GROQ_MODEL") or "llama-3.3-70b-versatile"
+    else:
+        api_url = "https://api.x.ai/v1/chat/completions"
+        model_name = os.getenv("GROK_MODEL") or "grok-2-latest"
 
     # Prepare prompt metrics
     stars_total = sum((r.get("stargazers_count", 0) or 0) for r in repos)
@@ -128,13 +137,12 @@ def roast():
     )
 
     try:
-        url = "https://api.x.ai/v1/chat/completions"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {api_key}"
         }
         body = {
-            "model": grok_model,
+            "model": model_name,
             "messages": [
                 {"role": "system", "content": system_instruction},
                 {"role": "user", "content": user_prompt}
@@ -144,7 +152,7 @@ def roast():
         }
 
         # 4.5-second timeout to protect live presentation
-        resp = requests.post(url, headers=headers, json=body, timeout=4.5)
+        resp = requests.post(api_url, headers=headers, json=body, timeout=4.5)
 
         if not resp.ok:
             print(f"[Rishta Aunty Python] Grok API error: {resp.status_code} {resp.text}")
