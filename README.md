@@ -18,24 +18,12 @@ In Pakistani and South Asian culture, nothing strikes fear or excitement like **
 
 ---
 
-## 🎯 Why This Wins "Make Internet Fun"
+## 🎯 Why This Makes the Internet Fun
 
-1. **Audience IS The Demo:** No artificial seed data. Judges or attendees can type their own GitHub username live on the projector.
+1. **Real-time Public Data:** No artificial mockups or seed profiles. Anyone can enter their GitHub username and get an instant roast.
 2. **Culturally Resonant Satire:** Frames technical developer flaws (npm fatigue, tutorial hell, Git conflicts) through beloved Desi matchmaking tropes (*"Sharma ji ka beta tier"*, *"Dahej mein open source maang rahe hain"*).
 3. **Affectionate & Halal:** 100% focused on coding habits. No jokes about religion, sects, family background, or personal appearance.
-4. **Stage-Proof Resilience:** Built with a **Dual-Tier Roast Engine**. If the LLM experiences latency or rate-limiting during the live pitch, the app automatically and instantaneously falls back to our deterministic rule-based roast matrix in <100ms. **Zero blank screens. Zero demo fails.**
-
----
-
-## 🚀 Live Demo Presentation Cheat-Sheet
-
-| Step | Action | Stage Quip / Talk Track |
-|------|--------|--------------------------|
-| **1. Hook** | Open app on projector | *"Everyone talks about AI agent workflows and enterprise architectures. But today, we tackle Pakistan's real engineering crisis: Can a full-stack developer actually get married?"* |
-| **2. Demo 1** | Type a judge's username or `shadcn` / `gaearon` | Point out the loading quote: *"Look, aunty is checking if they clean their room or just write clean code."* |
-| **3. The Reveal** | Show the Biodata Card & Stamp | Read out the Matrimonial Title, Gotra (*"Node_Modules Biradari"*), and Aunty's Verdict. |
-| **4. Edge Case** | Type an account with 0-1 repos or click Linus | Show how it mocks 0 repos: *"Khali biodata le kar rishta dhoondne nikal pare ho? Pehle ek Hello World toh push kar aao!"* |
-| **5. The Closer** | Click "Download Biodata Card" | *"One-click export ready to send to your family WhatsApp group before your mother finds out your commit streak broke."* |
+4. **Bulletproof Resilience:** Built with a **Dual-Tier Roast Engine**. If the LLM experiences latency, rate-limiting, or is offline, the app automatically and instantaneously falls back to our deterministic rule-based roast matrix in <100ms.
 
 ---
 
@@ -51,11 +39,12 @@ In Pakistani and South Asian culture, nothing strikes fear or excitement like **
              ▼
 [Roast Engine Router]
        ├──► Tier 1: xAI Grok (/api/roast) [4s timeout]
-       └──► Tier 2: Instant Deterministic Fallback Matrix (fallbacks.js)
+       └──► Tier 2: Instant Deterministic Fallback Matrix (fallbacks.py)
              │
              ▼
-[Dynamic Biodata Card]
-  - Ornate golden matrimonial border & corner filigree
+[Dynamic Neo-Glass Biodata Card]
+  - Neobrutalism 3.5px borders & hard offset shadows
+  - Frosted glassmorphism with ambient background mesh
   - Dynamic rubber stamp with slam animation
   - 1-Click PNG Download via html2canvas
   - Pre-filled WhatsApp & Twitter / X share intents
