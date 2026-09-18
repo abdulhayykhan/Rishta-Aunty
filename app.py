@@ -219,15 +219,25 @@ def roast():
     return jsonify({"source": "fallback", "groq_error": last_groq_error, "data": fallback_roast})
 
 
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+@app.route("/")
+def index():
+    return send_from_directory(ROOT_DIR, "index.html")
+
+@app.route("/<path:filename>")
+def static_files(filename):
+    # Do not intercept /api/ endpoints
+    if filename.startswith("api/") or filename == "api":
+        return jsonify({"error": "API route not found"}), 404
+    target = os.path.join(ROOT_DIR, filename)
+    if os.path.isfile(target):
+        return send_from_directory(ROOT_DIR, filename)
+    return send_from_directory(ROOT_DIR, "index.html")
+
+
 if __name__ == "__main__":
-    @app.route("/")
-    def index():
-        return send_from_directory(".", "index.html")
-
-    @app.route("/<path:filename>")
-    def static_files(filename):
-        return send_from_directory(".", filename)
-
     port = int(os.getenv("PORT", 5000))
     print(f"🧕 Rishta Aunty running at http://127.0.0.1:{port}")
     app.run(host="0.0.0.0", port=port, debug=True)
+
