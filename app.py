@@ -30,11 +30,14 @@ def health():
 
 @app.route("/api/roast", methods=["POST", "OPTIONS"])
 @app.route("/roast", methods=["POST", "OPTIONS"])
-@app.route("/api/index", methods=["POST", "OPTIONS"])
-@app.route("/api", methods=["POST", "OPTIONS"])
+@app.route("/api/index", methods=["GET", "POST", "OPTIONS"])
+@app.route("/api", methods=["GET", "POST", "OPTIONS"])
 def roast():
     if request.method == "OPTIONS":
         return "", 200
+
+    if request.method == "GET":
+        return health()
 
     payload = request.get_json(silent=True) or {}
     profile = payload.get("profile")
