@@ -149,18 +149,18 @@ def roast():
             "response_format": {"type": "json_object"}
         }
 
-        # 4.5-second timeout to protect live presentation
-        resp = requests.post(api_url, headers=headers, json=body, timeout=4.5)
+        # 12.0-second timeout for full Llama-3.3-70B JSON generation
+        resp = requests.post(api_url, headers=headers, json=body, timeout=12.0)
 
         if not resp.ok:
             print(f"[Rishta Aunty Python] Groq API error: {resp.status_code} {resp.text}")
-            return jsonify({"source": "fallback", "data": fallback_roast})
+            return jsonify({"source": "fallback", "groq_error": f"HTTP {resp.status_code}: {resp.text}", "data": fallback_roast})
 
         resp_data = resp.json()
         content = resp_data.get("choices", [{}])[0].get("message", {}).get("content", "")
 
         if not content:
-            return jsonify({"source": "fallback", "data": fallback_roast})
+            return jsonify({"source": "fallback", "groq_error": "Empty content returned by Groq", "data": fallback_roast})
 
         clean_json = re.sub(r"^```json\s*", "", content.strip(), flags=re.IGNORECASE)
         clean_json = re.sub(r"```$", "", clean_json.strip()).strip()
@@ -177,7 +177,7 @@ def roast():
 
     except Exception as exc:
         print(f"[Rishta Aunty Python] Groq error or timeout ({str(exc)}), using fallback matrix.")
-        return jsonify({"source": "fallback", "data": fallback_roast})
+        return jsonify({"source": "fallback", "groq_error": str(exc), "data": fallback_roast})
 
 
 if __name__ == "__main__":
