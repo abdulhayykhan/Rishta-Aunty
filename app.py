@@ -1,0 +1,178 @@
+import os
+import re
+import json
+import requests
+from flask import Flask, request, jsonify, send_from_directory
+from dotenv import load_dotenv
+from fallbacks import generate_fallback_roast
+
+# Load environment variables from .env
+load_dotenv()
+
+app = Flask(__name__, static_folder=".")
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
+
+@app.route("/")
+def index():
+    return send_from_directory(".", "index.html")
+
+@app.route("/<path:filename>")
+def static_files(filename):
+    return send_from_directory(".", filename)
+
+@app.route("/api/health", methods=["GET"])
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok", "app": "Rishta Aunty Backend (Python)"})
+
+@app.route("/api/roast", methods=["POST", "OPTIONS"])
+@app.route("/roast", methods=["POST", "OPTIONS"])
+def roast():
+    if request.method == "OPTIONS":
+        return "", 200
+
+    payload = request.get_json(silent=True) or {}
+    profile = payload.get("profile")
+    repos = payload.get("repos") or []
+    username = payload.get("username")
+
+    # If only username provided, fetch GitHub data in Python
+    if not profile and username:
+        username = username.strip().lstrip("@")
+        gh_headers = {"User-Agent": "Rishta-Aunty-App"}
+        try:
+            prof_resp = requests.get(f"https://api.github.com/users/{username}", headers=gh_headers, timeout=5)
+            if prof_resp.status_code == 404:
+                return jsonify({"error": f"Haye tauba! GitHub par '@{username}' nahi mila."}), 404
+            if not prof_resp.ok:
+                return jsonify({"error": "GitHub API error."}), prof_resp.status_code
+            profile = prof_resp.json()
+
+            repo_resp = requests.get(
+                f"https://api.github.com/users/{username}/repos?sort=updated&per_page=30",
+                headers=gh_headers,
+                timeout=5
+            )
+            if repo_resp.ok:
+                repos = repo_resp.json()
+        except Exception as e:
+            return jsonify({"error": f"Failed to fetch GitHub data: {str(e)}"}), 500
+
+    if not profile or not profile.get("login"):
+        return jsonify({"error": "Missing GitHub profile information."}), 400
+
+    # Deterministic fallback ready instantly
+    fallback_roast = generate_fallback_roast(profile, repos)
+
+    api_key = os.getenv("GROK_API_KEY") or os.getenv("XAI_API_KEY")
+    grok_model = os.getenv("GROK_MODEL", "grok-2-latest")
+
+    if not api_key:
+        print("[Rishta Aunty Python] No GROK_API_KEY provided; returning fallback roast.")
+        return jsonify({"source": "fallback", "data": fallback_roast})
+
+    # Prepare prompt metrics
+    stars_total = sum((r.get("stargazers_count", 0) or 0) for r in repos)
+    forked_total = sum(1 for r in repos if r.get("fork"))
+    languages_used = list(dict.fromkeys([r.get("language") for r in repos if r.get("language")]))[:5]
+    repo_names = ", ".join([f"{r.get('name')} ({r.get('language') or 'Code'}, {r.get('stargazers_count', 0)}★)" for r in repos[:8]])
+
+    system_instruction = (
+        "You are 'Rishta Aunty', a beloved, dramatic, sharp-tongued yet affectionate "
+        "Pakistani matchmaking aunty reviewing a software engineer's GitHub profile to write their "
+        "matrimonial 'Rishta Biodata Roast'.\n\n"
+        "CULTURAL FLAVOR:\n"
+        "- Speak in a natural blend of Roman Urdu and Desi English ('Beta ji', 'Haye tauba', 'Log kya kahenge', "
+        "'Sharma ji ka beta', 'Rishta pakka / Rishta kharij', 'Chai thandi ho rahi hai', 'Dahej mein open-source mangenge kya?').\n"
+        "- You care deeply about whether this candidate will make a responsible spouse or just stay awake till 4 AM staring at dark-mode VS Code.\n\n"
+        "STRICT SAFETY CONSTRAINTS:\n"
+        "- Keep the humor purely about developer quirks: abandoned repos, copy-pasting code, empty READMEs, framework obsession, "
+        "commit messages, late-night commits, zero tests.\n"
+        "- DO NOT make jokes about religion, sects, caste bigotry, physical appearance, or sensitive family trauma.\n\n"
+        "JSON OUTPUT ONLY:\n"
+        "Respond ONLY with a valid JSON object (no markdown code blocks, no backticks, no extra text) with this schema:\n"
+        "{\n"
+        '  "title": "Funny matrimonial job title",\n'
+        '  "gotra": "Tech clan/gotra (e.g. Node_Modules Baradri, Pythonic Sheikh)",\n'
+        '  "habits": ["Habit 1", "Habit 2", "Habit 3"],\n'
+        '  "assets": ["Asset 1", "Asset 2", "Asset 3", "Asset 4"],\n'
+        '  "redFlags": ["Red flag 1", "Red flag 2", "Red flag 3"],\n'
+        '  "auntyVerdict": "Affectionate, dramatic 3-4 sentence Desi aunty roast evaluating their marriage prospects.",\n'
+        '  "matchScore": 45,\n'
+        '  "stampStatus": "RISHTA KHARIJ ❌ or RISHTA PENDING ⚠️ or RISHTA PAKKA! 💍",\n'
+        '  "stampClass": "stamp-rejected or stamp-pending or stamp-verified"\n'
+        "}"
+    )
+
+    user_prompt = (
+        f"Candidate Profile:\n"
+        f"- Username: {profile.get('login')}\n"
+        f"- Full Name: {profile.get('name') or 'Not disclosed'}\n"
+        f"- Bio: \"{profile.get('bio') or 'Khali bio - secretive personality'}\"\n"
+        f"- Public Repositories: {profile.get('public_repos', 0)}\n"
+        f"- Followers: {profile.get('followers', 0)} | Following: {profile.get('following', 0)}\n"
+        f"- Total Stars: {stars_total}\n"
+        f"- Forked Repos: {forked_total} out of {len(repos)} inspected\n"
+        f"- Top Languages: {', '.join(languages_used) if languages_used else 'None detected'}\n"
+        f"- Sample Repositories: {repo_names if repo_names else 'None'}\n"
+        f"- Location: {profile.get('location') or 'Unknown'}\n\n"
+        "Write their matrimonial biodata roast JSON now."
+    )
+
+    try:
+        url = "https://api.x.ai/v1/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        }
+        body = {
+            "model": grok_model,
+            "messages": [
+                {"role": "system", "content": system_instruction},
+                {"role": "user", "content": user_prompt}
+            ],
+            "temperature": 0.8,
+            "response_format": {"type": "json_object"}
+        }
+
+        # 4.5-second timeout to protect live presentation
+        resp = requests.post(url, headers=headers, json=body, timeout=4.5)
+
+        if not resp.ok:
+            print(f"[Rishta Aunty Python] Grok API error: {resp.status_code} {resp.text}")
+            return jsonify({"source": "fallback", "data": fallback_roast})
+
+        resp_data = resp.json()
+        content = resp_data.get("choices", [{}])[0].get("message", {}).get("content", "")
+
+        if not content:
+            return jsonify({"source": "fallback", "data": fallback_roast})
+
+        clean_json = re.sub(r"^```json\s*", "", content.strip(), flags=re.IGNORECASE)
+        clean_json = re.sub(r"```$", "", clean_json.strip()).strip()
+        parsed = json.loads(clean_json)
+
+        # Merge metadata
+        parsed["candidateName"] = profile.get("name") or profile.get("login")
+        parsed["topLanguage"] = languages_used[0] if languages_used else "Code"
+        parsed["totalStars"] = stars_total
+        parsed["publicRepos"] = profile.get("public_repos", 0)
+        parsed["followers"] = profile.get("followers", 0)
+
+        return jsonify({"source": "grok", "data": parsed})
+
+    except Exception as exc:
+        print(f"[Rishta Aunty Python] Grok error or timeout ({str(exc)}), using fallback matrix.")
+        return jsonify({"source": "fallback", "data": fallback_roast})
+
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 5000))
+    print(f"🧕 Rishta Aunty running at http://127.0.0.1:{port}")
+    app.run(host="0.0.0.0", port=port, debug=True)

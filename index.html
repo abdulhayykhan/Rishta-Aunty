@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rishta Aunty — GitHub Matrimonial Biodata Roast</title>
+  <meta name="description" content="Turn any GitHub profile into a hilarious Pakistani/Desi Rishta Biodata Roast. Made for GDG Live Pakistan Chai aur Code.">
+  <meta property="og:title" content="Rishta Aunty — GitHub Profile Matrimonial Roast">
+  <meta property="og:description" content="Beta has 47 repos, 46 abandoned. Ghar ka kaam nahi karta, only README. Check your Rishta Match Score!">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2226%22 font-size=%2226%22>🧕</text></svg>">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- html2canvas for 1-click PNG Biodata export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Header -->
+  <header class="top-header">
+    <div class="header-container">
+      <div class="brand-wrap">
+        <div class="brand-icon">🧕</div>
+        <div class="brand-title">
+          <h1>Rishta Aunty Matrimonial Bureau</h1>
+          <p>Connecting Code with Qismat • Verified Desi Developer Biodatas</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="tag-badge">☕ Chai aur Code Ep#2</span>
+        <span class="tag-badge">⚡ GDG Live Pakistan</span>
+        <span class="tag-badge">🎉 Make Internet Fun</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Shell -->
+  <main class="main-content">
+
+    <!-- Search Section -->
+    <section class="search-card">
+      <h2 class="search-title">Rishta Dekhne Aaye Hain?</h2>
+      <p class="search-subtitle">Enter any GitHub username to generate their official Desi Marriage Biodata & Aunty Roast.</p>
+
+      <form id="roast-form" class="search-form">
+        <div class="input-wrapper">
+          <span class="github-prefix">github.com/</span>
+          <input 
+            type="text" 
+            id="username-input" 
+            class="search-input" 
+            placeholder="e.g. torvalds, gaearon, or your username" 
+            autocomplete="off" 
+            required
+          >
+        </div>
+        <button type="submit" id="submit-btn" class="btn-roast">
+          <span>🔍 Kundali Nikalo</span>
+        </button>
+      </form>
+
+      <!-- Quick pick chips for judges/live audience demo -->
+      <div class="quick-picks">
+        <span class="quick-picks-label">Live Demo Profiles:</span>
+        <button type="button" class="chip" data-user="torvalds">🐧 Linus Torvalds</button>
+        <button type="button" class="chip" data-user="gaearon">⚛️ Dan Abramov</button>
+        <button type="button" class="chip" data-user="shadcn">🎨 shadcn</button>
+        <button type="button" class="chip" data-user="sindresorhus">📦 Sindre Sorhus</button>
+        <button type="button" class="chip" data-user="leerob">▲ Lee Robinson</button>
+      </div>
+    </section>
+
+    <!-- Loading Screen with Aunty Quips -->
+    <section id="loading-box" class="loading-box">
+      <div class="tea-spinner">☕</div>
+      <div id="loading-quote" class="loading-quote">"Chashma theek kar rahi hoon..."</div>
+      <p class="loading-subtext">Rishta Aunty is inspecting candidate's repos, commit history, and red flags...</p>
+    </section>
+
+    <!-- Matrimonial Biodata Card (The Stage Centerpiece) -->
+    <section id="card-section" class="card-section">
+      <div id="biodata-card" class="card-frame">
+        
+        <!-- Ornate Golden Corners -->
+        <svg class="corner-ornament top-left" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
+          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
+          <circle cx="25" cy="25" r="4" fill="#b45309"/>
+        </svg>
+        <svg class="corner-ornament top-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
+          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
+          <circle cx="25" cy="25" r="4" fill="#b45309"/>
+        </svg>
+        <svg class="corner-ornament bottom-left" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
+          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
+          <circle cx="25" cy="25" r="4" fill="#b45309"/>
+        </svg>
+        <svg class="corner-ornament bottom-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
+          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
+          <circle cx="25" cy="25" r="4" fill="#b45309"/>
+        </svg>
+
+        <!-- Official Status Stamp -->
+        <div id="card-stamp" class="stamp stamp-rejected">RISHTA KHARIJ ❌</div>
+
+        <!-- Matrimonial Header -->
+        <div class="biodata-banner">
+          <div class="bismillah-text">✦ BISMILLAH-IR-RAHMAN-IR-RAHEEM ✦</div>
+          <h2 class="biodata-main-title">OFFICIAL RISHTA BIODATA</h2>
+          <span class="biodata-sub-badge">Verified by Rishta Aunty Bureau of Matchmaking</span>
+        </div>
+
+        <!-- Candidate Profile Top -->
+        <div class="candidate-header">
+          <div class="avatar-wrapper">
+            <img id="card-avatar" class="candidate-avatar" src="" alt="Candidate Avatar">
+          </div>
+          <div class="candidate-meta">
+            <h3 id="card-name" class="candidate-name">Candidate Name</h3>
+            <p id="card-handle" class="candidate-handle">@github_handle</p>
+            <p id="card-title" class="candidate-title">Senior Abandoned Repo Architect</p>
+            <p id="card-gotra" class="candidate-gotra">Node_Modules Biradari (JavaScript Brahmins)</p>
+          </div>
+        </div>
+
+        <!-- Dahej & Assets Grid -->
+        <div class="assets-grid">
+          <div class="asset-box">
+            <div class="asset-label">Dahej (Public Repos)</div>
+            <div id="stat-repos" class="asset-value">0</div>
+            <div class="asset-sub">Projects started</div>
+          </div>
+          <div class="asset-box">
+            <div class="asset-label">Khandani Izzat (Stars)</div>
+            <div id="stat-stars" class="asset-value">0 ★</div>
+            <div class="asset-sub">Total stars collected</div>
+          </div>
+          <div class="asset-box">
+            <div class="asset-label">Milansar (Followers)</div>
+            <div id="stat-followers" class="asset-value">0</div>
+            <div class="asset-sub" id="stat-ratio-sub">Followers vs Following</div>
+          </div>
+          <div class="asset-box">
+            <div class="asset-label">Kamaane Ka Zariya</div>
+            <div id="stat-tech" class="asset-value">Code</div>
+            <div class="asset-sub">Primary Tech Stack</div>
+          </div>
+        </div>
+
+        <!-- Section 1: Daily Habits / Domestic Life -->
+        <div class="biodata-section">
+          <h4 class="section-title"><span>🏠</span> Ghar Ke Kaam Aur Rozmarrah Ki Aadatein</h4>
+          <ul id="card-habits" class="biodata-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+        <!-- Section 2: Red Flags -->
+        <div class="biodata-section">
+          <h4 class="section-title"><span>🚩</span> Rishtey Ke Red Flags & Kamzoriyan</h4>
+          <ul id="card-red-flags" class="biodata-list red-flag-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+        <!-- Section 3: Aunty's Verdict -->
+        <div class="verdict-box">
+          <div class="verdict-title">
+            <span>🧕</span> Rishta Aunty Ka Hukumnama (Final Verdict):
+          </div>
+          <p id="card-verdict" class="verdict-text">
+            "Beta has 47 repos, 46 abandoned! Ghar ka kaam nahi karta, only README..."
+          </p>
+        </div>
+
+        <!-- Section 4: Rishta Match Score -->
+        <div class="meter-container">
+          <div class="meter-info">
+            <div class="meter-title">Rishta Compatibility Score</div>
+            <div id="meter-status-text" class="meter-rating-text">Rishta Dubious</div>
+            <div class="meter-progress-track">
+              <div id="meter-fill" class="meter-progress-fill" style="width: 35%;"></div>
+            </div>
+          </div>
+          <div id="meter-percentage" class="meter-percentage">35%</div>
+        </div>
+
+      </div>
+
+      <!-- Stage Demo Actions -->
+      <div class="card-actions">
+        <button id="btn-download" class="action-btn btn-download">
+          <span>📸 Download Biodata Card (PNG)</span>
+        </button>
+        <button id="btn-copy" class="action-btn btn-copy">
+          <span>📋 Copy Roast Text</span>
+        </button>
+        <button id="btn-twitter" class="action-btn btn-twitter">
+          <span>🐦 Share on X (Twitter)</span>
+        </button>
+        <button id="btn-whatsapp" class="action-btn btn-whatsapp">
+          <span>💬 Share to WhatsApp</span>
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toast-text">Roast copied to clipboard!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <p>Made with ❤️ & ☕ for <strong>GDG Live Pakistan — Chai aur Code Ep#2</strong> ("Make Internet Fun")</p>
+    <p style="margin-top: 0.35rem; font-size: 0.8rem; color: #9ca3af;">
+      Powered by xAI Grok & GitHub Public API • All roasts are halal and purely developer satire.
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="fallbacks.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,810 @@
+/* ==========================================================================
+   Rishta Aunty - Desi Matrimonial Bureau Stylesheet
+   Theme: Royal Emerald, Crimson Maroon, Vintage Gold Foil & Parchment
+   ========================================================================== */
+
+:root {
+  --bg-parchment: #fcf8f2;
+  --bg-card: #fffdf9;
+  --maroon-deep: #701a2c;
+  --maroon-rich: #881337;
+  --gold-primary: #d97706;
+  --gold-rich: #b45309;
+  --gold-light: #fef3c7;
+  --emerald-deep: #064e3b;
+  --emerald-accent: #059669;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --border-gold: #e5c07b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background-color: var(--bg-parchment);
+  background-image: radial-gradient(#d9770615 1px, transparent 1px), radial-gradient(#88133710 1px, var(--bg-parchment) 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= Top Banner ================= */
+.top-header {
+  background: linear-gradient(135deg, #701a2c 0%, #4c0519 100%);
+  color: #fff;
+  border-bottom: 3px solid var(--gold-primary);
+  padding: 1.25rem 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.top-header::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #d97706, #d97706 10px, #b45309 10px, #b45309 20px);
+}
+
+.header-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-icon {
+  font-size: 2.5rem;
+  background: #fef3c7;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.brand-title h1 {
+  font-family: 'Georgia', serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #fef3c7;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.brand-title p {
+  font-size: 0.85rem;
+  color: #fde68a;
+  letter-spacing: 0.5px;
+}
+
+.badge-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag-badge {
+  background: rgba(254, 243, 199, 0.15);
+  border: 1px solid rgba(254, 243, 199, 0.4);
+  color: #fef3c7;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* ================= Main Container ================= */
+.main-content {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* ================= Search / Input Section ================= */
+.search-card {
+  background: #ffffff;
+  border: 2px solid #e5c07b;
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: 0 10px 25px -5px rgba(112, 26, 44, 0.08), 0 8px 10px -6px rgba(112, 26, 44, 0.04);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-card::before {
+  content: "✨";
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.search-card::after {
+  content: "✨";
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.search-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  color: var(--maroon-deep);
+  margin-bottom: 0.35rem;
+}
+
+.search-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-form {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.github-prefix {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.5rem;
+  font-size: 1.05rem;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #fdfdfd;
+}
+
+.search-input:focus {
+  border-color: var(--maroon-deep);
+  box-shadow: 0 0 0 3px rgba(112, 26, 44, 0.15);
+}
+
+.btn-roast {
+  background: linear-gradient(135deg, #881337 0%, #701a2c 100%);
+  color: #fff;
+  border: 2px solid #b45309;
+  padding: 0 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-roast:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(112, 26, 44, 0.3);
+  background: linear-gradient(135deg, #9f1239 0%, #881337 100%);
+}
+
+.btn-roast:active {
+  transform: translateY(0);
+}
+
+/* Quick picks chips */
+.quick-picks {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quick-picks-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-rich);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chip {
+  background: #fdf6ec;
+  border: 1px solid #fbd38d;
+  color: #744210;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  background: #feebc8;
+  border-color: #dd6b20;
+  transform: translateY(-1px);
+}
+
+/* ================= Loading State ================= */
+.loading-box {
+  display: none;
+  background: #fff;
+  border: 2px dashed var(--gold-primary);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  margin-top: 2rem;
+  animation: pulseBox 2s infinite ease-in-out;
+}
+
+@keyframes pulseBox {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.2); }
+  50% { box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
+}
+
+.tea-spinner {
+  font-size: 3.5rem;
+  display: inline-block;
+  animation: wobbleTea 1.5s infinite ease-in-out;
+  margin-bottom: 1rem;
+}
+
+@keyframes wobbleTea {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg) scale(1.05); }
+}
+
+.loading-quote {
+  font-family: 'Georgia', serif;
+  font-size: 1.25rem;
+  color: var(--maroon-deep);
+  font-style: italic;
+  font-weight: 600;
+  min-height: 2rem;
+  transition: opacity 0.3s ease;
+}
+
+.loading-subtext {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+/* ================= THE BIODATA CARD ================= */
+.card-section {
+  display: none;
+  margin-top: 2rem;
+  perspective: 1000px;
+}
+
+.card-frame {
+  background: var(--bg-card);
+  border: 6px double #b45309;
+  border-radius: 18px;
+  padding: 2.25rem;
+  box-shadow: 0 15px 35px -5px rgba(112, 26, 44, 0.15), 0 0 0 2px #fef3c7 inset;
+  position: relative;
+  overflow: hidden;
+  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Ornate Corners */
+.corner-ornament {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.top-left { top: 8px; left: 8px; }
+.top-right { top: 8px; right: 8px; transform: scaleX(-1); }
+.bottom-left { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.bottom-right { bottom: 8px; right: 8px; transform: scale(-1); }
+
+/* Matrimonial Header Banner */
+.biodata-banner {
+  text-align: center;
+  border-bottom: 2px solid #fde68a;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+
+.bismillah-text {
+  font-family: 'Georgia', serif;
+  color: var(--gold-rich);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.biodata-main-title {
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--maroon-deep);
+  letter-spacing: 0.5px;
+}
+
+.biodata-sub-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.8rem;
+  border-radius: 9999px;
+  margin-top: 0.35rem;
+}
+
+/* Rubber Stamp */
+.stamp {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  padding: 0.4rem 1.1rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  border-radius: 6px;
+  display: inline-block;
+  transform: rotate(-12deg);
+  box-shadow: 0 0 0 3px currentColor;
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0.5) 100%);
+  animation: stampSlam 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
+  opacity: 0;
+  z-index: 10;
+}
+
+@keyframes stampSlam {
+  0% {
+    opacity: 0;
+    transform: scale(2.5) rotate(-25deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-12deg);
+  }
+}
+
+.stamp-rejected {
+  color: #dc2626;
+  border: 4px solid #dc2626;
+  background: rgba(254, 242, 242, 0.85);
+}
+
+.stamp-pending {
+  color: #d97706;
+  border: 4px solid #d97706;
+  background: rgba(255, 251, 235, 0.85);
+}
+
+.stamp-verified {
+  color: #059669;
+  border: 4px solid #059669;
+  background: rgba(236, 253, 245, 0.85);
+}
+
+/* Candidate Profile Header */
+.candidate-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid var(--gold-primary);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f3f4f6;
+}
+
+.candidate-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.candidate-meta {
+  flex: 1;
+  min-width: 250px;
+}
+
+.candidate-name {
+  font-family: 'Georgia', serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--maroon-deep);
+}
+
+.candidate-handle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.candidate-title {
+  font-weight: 700;
+  color: var(--emerald-deep);
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.candidate-gotra {
+  font-size: 0.88rem;
+  color: #92400e;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Dahej & Assets Grid */
+.assets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.asset-box {
+  background: #fff;
+  border: 1px solid #fde68a;
+  border-left: 4px solid var(--gold-primary);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.asset-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #78350f;
+  margin-bottom: 0.2rem;
+}
+
+.asset-value {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--maroon-deep);
+}
+
+.asset-sub {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Biodata Sections */
+.biodata-section {
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--maroon-deep);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px dashed #d6d3d1;
+  padding-bottom: 0.4rem;
+}
+
+.biodata-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.biodata-list li {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.biodata-list li::before {
+  content: "✦";
+  color: var(--gold-primary);
+  font-weight: bold;
+}
+
+.red-flag-list li::before {
+  content: "⚠️";
+}
+
+/* Aunty's Verdict Box */
+.verdict-box {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 2px solid var(--gold-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.verdict-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--maroon-deep);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.verdict-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #451a03;
+  font-style: italic;
+}
+
+/* Rishta Match Meter */
+.meter-container {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.meter-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.meter-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+}
+
+.meter-rating-text {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--maroon-deep);
+}
+
+.meter-progress-track {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.meter-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #dc2626 0%, #f59e0b 50%, #10b981 100%);
+  border-radius: 9999px;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.meter-percentage {
+  font-size: 2rem;
+  font-weight: 900;
+  font-family: 'Georgia', serif;
+  color: var(--maroon-deep);
+}
+
+/* ================= Action Buttons ================= */
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-download {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  color: #fff;
+  border: 1px solid #10b981;
+}
+
+.btn-download:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 78, 59, 0.25);
+}
+
+.btn-copy {
+  background: #fff;
+  border: 2px solid #d1d5db;
+  color: #374151;
+}
+
+.btn-copy:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+  transform: translateY(-2px);
+}
+
+.btn-twitter {
+  background: #000;
+  color: #fff;
+}
+
+.btn-twitter:hover {
+  background: #18181b;
+  transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+  background: #25d366;
+  color: #fff;
+}
+
+.btn-whatsapp:hover {
+  background: #22c55e;
+  transform: translateY(-2px);
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #1f2937;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Footer */
+.page-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 3rem;
+  background: #fff;
+}
+
+.page-footer a {
+  color: var(--maroon-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.page-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .search-form {
+    flex-direction: column;
+  }
+  .btn-roast {
+    justify-content: center;
+    padding: 0.85rem;
+  }
+  .stamp {
+    position: static;
+    display: inline-block;
+    margin-bottom: 1rem;
+    transform: rotate(0deg);
+  }
+  .candidate-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .card-frame {
+    padding: 1.5rem 1rem;
+  }
+}
