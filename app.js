@@ -4,14 +4,15 @@
  * Dynamic Biodata Card Rendering, and Image Export.
  */
 
-// Aunty's loading dialogue cycle
+// Aunty's loading dialogue cycle (Packed with authentic Pakistani/Desi slangs)
 const AUNTY_QUIPS = [
-  "Chashma theek kar rahi hoon...",
-  "Kundali aur GitHub stats match kiye ja rahe hain...",
-  "47 repos aur 46 abandoned dekh kar BP barh gaya...",
-  "Mohallay walon se beta ke kirdaar ki tasdeeq ho rahi hai...",
-  "Git commit streak check karke rishta tayy karenge...",
-  "Ammi se pooch rahi hoon ke ladka chai theek banata hai ya nahi..."
+  "Chashma theek kar rahi hoon, lagta hai chuss maari hui hai code mein...",
+  "47 repos aur 46 abandoned? Haye mera BP! Beta toh pura hawa-baaz nikla!",
+  "Kundali match kar rahi hoon... Par lagta hai Phupho ne pehle hi kaan bhar diye hain!",
+  "GitHub par itnay shashkay, par ghar mein ek anda fry nahi kar sakta!",
+  "Scene off lag raha hai beta, khali biodata dekh kar ammi behosh ho gayi hain...",
+  "Git commit streak aisi hai jaise Karachi mein bijli ka schedule (kabhi aayi kabhi gayi)!",
+  "Sasural ki dawat par baith kar prod incident solve karne wala damad nahi chahiye!"
 ];
 
 let quoteInterval = null;
@@ -223,13 +224,13 @@ function renderBiodataCard(profile, repos, roast) {
 
   const meterText = document.getElementById('meter-status-text');
   if (score < 35) {
-    meterText.textContent = "Rishta Kharij ❌ (Ghar walon ko sakht aitraz)";
+    meterText.textContent = "Scene Off Hai ❌ (Phupho Ne Rishta Cancel Karwa Diya)";
     meterText.style.color = "#dc2626";
   } else if (score < 65) {
-    meterText.textContent = "Conditional Match ⚠️ (Thoda fixing baki hai)";
+    meterText.textContent = "Thoda Soch Vichar Baki ⚠️ (Abba Ko Manana Parega)";
     meterText.style.color = "#d97706";
   } else {
-    meterText.textContent = "Sharma Ji Ka Beta Tier 💍 (Rishta Pakka!)";
+    meterText.textContent = "Sharma Ji Ka Beta Tier 💖 (Scene Full On Hai — Mithaai Baanto!)";
     meterText.style.color = "#059669";
   }
 
