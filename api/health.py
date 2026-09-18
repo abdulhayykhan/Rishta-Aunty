@@ -1,9 +1,25 @@
 import os
-import sys
+import json
+from http.server import BaseHTTPRequestHandler
 
-# Ensure project root is in sys.path for Vercel serverless environment
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if ROOT_DIR not in sys.path:
-    sys.path.insert(0, ROOT_DIR)
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        groq_ready = bool(os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API"))
+        data = {
+            "status": "ok",
+            "app": "Rishta Aunty Backend (Python)",
+            "groq_configured": groq_ready
+        }
+        encoded = json.dumps(data).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        self.wfile.write(encoded)
 
-from app import app
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()

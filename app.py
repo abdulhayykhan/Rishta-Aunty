@@ -18,10 +18,8 @@ def add_cors_headers(response):
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     return response
 
-@app.route("/api/health", methods=["GET"])
-@app.route("/health", methods=["GET"])
-@app.route("/api", methods=["GET"])
-@app.route("/", methods=["GET"])
+@app.route("/api/health", methods=["GET", "OPTIONS"])
+@app.route("/health", methods=["GET", "OPTIONS"])
 def health():
     groq_ready = bool(os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API"))
     return jsonify({
@@ -34,7 +32,6 @@ def health():
 @app.route("/roast", methods=["POST", "OPTIONS"])
 @app.route("/api/index", methods=["POST", "OPTIONS"])
 @app.route("/api", methods=["POST", "OPTIONS"])
-@app.route("/", methods=["POST", "OPTIONS"])
 def roast():
     if request.method == "OPTIONS":
         return "", 200
