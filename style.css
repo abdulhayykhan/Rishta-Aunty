@@ -639,8 +639,9 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Rubber Stamp (Neobrutalist Stamp Slam with High-Saturated Badges) */
+/* Rubber Stamp (Hidden by design: keeps matrimonial header banner pristine and unobstructed) */
 .stamp {
+  display: none !important;
   position: absolute;
   top: 55px;
   right: 25px;
@@ -651,12 +652,11 @@ body {
   font-size: 1.25rem;
   letter-spacing: 2px;
   border-radius: 10px;
-  display: inline-block;
   transform: rotate(-10deg);
   border: 4.5px solid currentColor;
   box-shadow: 4px 4px 0px currentColor;
   animation: stampSlam 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.25s forwards;
-  opacity: 1;
+  opacity: 0;
   z-index: 20;
   line-height: 1;
 }
@@ -1183,9 +1183,9 @@ body {
 }
 
 .card-frame.export-mode .stamp {
-  opacity: 1 !important;
-  animation: none !important;
-  transform: rotate(-10deg) !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .card-frame.export-mode .stamp-rejected {
@@ -1426,13 +1426,7 @@ body {
     white-space: nowrap;
   }
   .stamp {
-    position: static;
-    display: block;
-    margin: 0.5rem auto 1rem auto;
-    transform: rotate(-3deg);
-    text-align: center;
-    max-width: 100%;
-    word-break: break-word;
+    display: none !important;
   }
   .candidate-header {
     flex-direction: column;
@@ -1609,18 +1603,7 @@ body {
     border-width: 1.5px;
   }
   .stamp {
-    position: static;
-    display: block;
-    margin: 0.35rem auto 0.75rem auto;
-    transform: rotate(-2deg);
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-    padding: 0.35rem 0.55rem;
-    border-width: 3px;
-    box-shadow: 3px 3px 0px currentColor;
-    max-width: 100%;
-    word-break: break-word;
-    text-align: center;
+    display: none !important;
   }
   .biodata-banner {
     padding-bottom: 0.85rem;

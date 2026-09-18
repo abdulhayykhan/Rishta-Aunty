@@ -172,24 +172,11 @@ function renderBiodataCard(profile, repos, roast) {
   const topLang = Object.keys(langCounts).sort((a, b) => langCounts[b] - langCounts[a])[0] || 'Plain Code';
   document.getElementById('stat-tech').textContent = topLang;
 
-  // Rubber Stamp
+  // Rubber Stamp (Hidden to preserve clean, unobstructed matrimonial header)
   const stampEl = document.getElementById('card-stamp');
-  stampEl.className = 'stamp';
-  stampEl.textContent = roast.stampStatus || "LADKI WALAY SOCHENGAY ⚠️";
-  if (roast.stampClass) {
-    stampEl.classList.add(roast.stampClass);
-  } else if (roast.matchScore < 40) {
-    stampEl.classList.add('stamp-rejected');
-  } else if (roast.matchScore < 70) {
-    stampEl.classList.add('stamp-pending');
-  } else {
-    stampEl.classList.add('stamp-verified');
+  if (stampEl) {
+    stampEl.style.display = 'none';
   }
-
-  // Re-trigger stamp slam animation
-  stampEl.style.animation = 'none';
-  void stampEl.offsetWidth; // trigger reflow
-  stampEl.style.animation = null;
 
   // Habits List
   const habitsList = document.getElementById('card-habits');
@@ -296,9 +283,7 @@ btnDownload.addEventListener('click', async () => {
           clonedCard.classList.add('export-mode');
           const stamp = clonedCard.querySelector('#card-stamp');
           if (stamp) {
-            stamp.style.opacity = '1';
-            stamp.style.animation = 'none';
-            stamp.style.transform = 'rotate(-10deg)';
+            stamp.style.display = 'none';
           }
         }
       }

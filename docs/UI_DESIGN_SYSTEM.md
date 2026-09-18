@@ -121,9 +121,7 @@ const canvas = await html2canvas(biodataCard, {
       clonedCard.classList.add('export-mode');
       const stamp = clonedCard.querySelector('#card-stamp');
       if (stamp) {
-        stamp.style.opacity = '1';
-        stamp.style.animation = 'none';
-        stamp.style.transform = 'rotate(-10deg)';
+        stamp.style.display = 'none';
       }
     }
   }
@@ -133,5 +131,5 @@ const canvas = await html2canvas(biodataCard, {
 And in [`style.css`](file:///c:/Users/USER/OneDrive%20-%20Dawood%20University%20of%20Engineering%20Technology/Desktop/Rishta-Aunty/style.css):
 - `.card-frame.export-mode` forces `background: #ffffff !important` and `backdrop-filter: none`.
 - The 4 candy tiles render with 100% solid saturated colors (`#fde047`, `#f472b6`, `#38bdf8`, `#4ade80`).
-- The stamp renders with deep saturated fills (`#fecaca`, `#fde68a`, `#a7f3d0`) and bold colored borders.
+- The top-right stamp is suppressed (`display: none !important`) so the matrimonial header banner (`BISMILLAH-IR-RAHMAN-IR-RAHEEM` and `OFFICIAL RISHTA BIODATA`) remains clean, elegant, and unobstructed.
 - The exported PNG looks punchy, rich, and pristine on WhatsApp, Twitter, and LinkedIn dark modes.
