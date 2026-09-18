@@ -286,7 +286,19 @@ btnDownload.addEventListener('click', async () => {
       scale: 2, // High resolution for mobile/retina
       useCORS: true,
       backgroundColor: '#faf5ed',
-      logging: false
+      logging: false,
+      onclone: (clonedDoc) => {
+        const clonedCard = clonedDoc.getElementById('biodata-card');
+        if (clonedCard) {
+          clonedCard.classList.add('export-mode');
+          const stamp = clonedCard.querySelector('#card-stamp');
+          if (stamp) {
+            stamp.style.opacity = '1';
+            stamp.style.animation = 'none';
+            stamp.style.transform = 'rotate(-10deg)';
+          }
+        }
+      }
     });
 
     const imgData = canvas.toDataURL('image/png');
