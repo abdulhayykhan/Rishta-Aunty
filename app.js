@@ -106,7 +106,7 @@ async function handleSearch(username) {
  */
 async function fetchRoastWithFallback(profile, repos) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 3500);
+  const timeoutId = setTimeout(() => controller.abort(), 9500);
 
   try {
     const res = await fetch('/api/roast', {
@@ -121,8 +121,11 @@ async function fetchRoastWithFallback(profile, repos) {
     if (res.ok) {
       const result = await res.json();
       if (result && result.data) {
+        console.log(`[Rishta Aunty] Roast source: ${result.source || 'server'}`);
         return result.data;
       }
+    } else {
+      console.warn(`[Rishta Aunty] Backend API responded with HTTP status ${res.status}`);
     }
   } catch (e) {
     clearTimeout(timeoutId);

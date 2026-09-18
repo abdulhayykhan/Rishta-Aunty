@@ -18,21 +18,22 @@ def add_cors_headers(response):
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     return response
 
-@app.route("/")
-def index():
-    return send_from_directory(".", "index.html")
-
-@app.route("/<path:filename>")
-def static_files(filename):
-    return send_from_directory(".", filename)
-
 @app.route("/api/health", methods=["GET"])
 @app.route("/health", methods=["GET"])
+@app.route("/api", methods=["GET"])
 def health():
-    return jsonify({"status": "ok", "app": "Rishta Aunty Backend (Python)"})
+    groq_ready = bool(os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API"))
+    return jsonify({
+        "status": "ok",
+        "app": "Rishta Aunty Backend (Python)",
+        "groq_configured": groq_ready
+    })
 
 @app.route("/api/roast", methods=["POST", "OPTIONS"])
 @app.route("/roast", methods=["POST", "OPTIONS"])
+@app.route("/api/index", methods=["POST", "OPTIONS"])
+@app.route("/api", methods=["POST", "OPTIONS"])
+@app.route("/", methods=["POST", "OPTIONS"])
 def roast():
     if request.method == "OPTIONS":
         return "", 200
@@ -70,11 +71,14 @@ def roast():
     # Deterministic fallback ready instantly
     fallback_roast = generate_fallback_roast(profile, repos)
 
-    api_key = os.getenv("GROQ_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API")
+    if api_key:
+        api_key = api_key.strip().strip("'\"")
+
     groq_model = "llama-3.3-70b-versatile"
 
     if not api_key:
-        print("[Rishta Aunty Python] No GROQ_API_KEY provided; returning fallback roast.")
+        print("[Rishta Aunty Python] No GROQ_API_KEY detected in environment; returning fallback roast.")
         return jsonify({"source": "fallback", "data": fallback_roast})
 
     api_url = "https://api.groq.com/openai/v1/chat/completions"
@@ -176,6 +180,14 @@ def roast():
 
 
 if __name__ == "__main__":
+    @app.route("/")
+    def index():
+        return send_from_directory(".", "index.html")
+
+    @app.route("/<path:filename>")
+    def static_files(filename):
+        return send_from_directory(".", filename)
+
     port = int(os.getenv("PORT", 5000))
     print(f"🧕 Rishta Aunty running at http://127.0.0.1:{port}")
     app.run(host="0.0.0.0", port=port, debug=True)
