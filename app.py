@@ -70,8 +70,8 @@ def roast():
     # Deterministic fallback ready instantly
     fallback_roast = generate_fallback_roast(profile, repos)
 
-    api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROK_API_KEY")
-    groq_model = os.getenv("GROQ_MODEL") or os.getenv("GROK_MODEL") or "llama-3.3-70b-versatile"
+    api_key = os.getenv("GROQ_API_KEY")
+    groq_model = "llama-3.3-70b-versatile"
 
     if not api_key:
         print("[Rishta Aunty Python] No GROQ_API_KEY provided; returning fallback roast.")
