@@ -102,6 +102,6 @@ Add `GROQ_API_KEY` under **Project Settings > Environment Variables** on your Ve
 
 ---
 
-## 📜 License
+## 📜 License & Credits
 
-MIT License • Built for GDG Live Pakistan Chai aur Code ☕
+MIT License • Built with ❤️ by [Abdul Hayy Khan](https://abdulhayykhan.dev) for GDG Live Pakistan Chai aur Code ☕
