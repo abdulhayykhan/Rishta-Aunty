@@ -21,11 +21,28 @@ def add_cors_headers(response):
 @app.route("/api/health", methods=["GET", "OPTIONS"])
 @app.route("/health", methods=["GET", "OPTIONS"])
 def health():
-    groq_ready = bool(os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API"))
+    api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API")
+    if api_key:
+        api_key = api_key.strip().strip("'\"")
+
+    models_list = []
+    groq_api_error = None
+    if api_key:
+        try:
+            r = requests.get("https://api.groq.com/openai/v1/models", headers={"Authorization": f"Bearer {api_key}"}, timeout=6)
+            if r.ok:
+                models_list = [m.get("id") for m in r.json().get("data", [])]
+            else:
+                groq_api_error = f"HTTP {r.status_code}: {r.text}"
+        except Exception as e:
+            groq_api_error = str(e)
+
     return jsonify({
         "status": "ok",
         "app": "Rishta Aunty Backend (Python)",
-        "groq_configured": groq_ready
+        "groq_configured": bool(api_key),
+        "available_groq_models": models_list,
+        "groq_api_error": groq_api_error
     })
 
 @app.route("/api/models", methods=["GET"])
