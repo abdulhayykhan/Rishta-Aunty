@@ -21,6 +21,7 @@ def add_cors_headers(response):
 @app.route("/api/health", methods=["GET"])
 @app.route("/health", methods=["GET"])
 @app.route("/api", methods=["GET"])
+@app.route("/", methods=["GET"])
 def health():
     groq_ready = bool(os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API"))
     return jsonify({

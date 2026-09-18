@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/api/roast", "destination": "/api/roast" },
+    { "source": "/api/health", "destination": "/api/health" },
     { "source": "/api/(.*)", "destination": "/api/index" }
   ]
 }
