@@ -195,6 +195,115 @@ const RISHTA_FALLBACKS = {
   }
 };
 
+function _detectLikelyFemale(name) {
+  if (!name) return false;
+  const first = name.trim().split(/\s+/)[0].toLowerCase();
+
+  const feminineNames = new Set([
+    "fatima", "ayesha", "aisha", "zainab", "maryam", "hira", "sana", "sara", "sarah",
+    "mahnoor", "noor", "amna", "bushra", "rabia", "huma", "nimra", "iqra", "kinza",
+    "arooj", "mehwish", "sidra", "anum", "laiba", "naila", "maria", "samia", "saima",
+    "sumaya", "zunaira", "aleena", "alina", "anaya", "dua", "emaan", "esha", "fariha",
+    "hafsa", "hamna", "hooria", "huriya", "javeria", "khadija", "komal", "maira",
+    "malika", "minahil", "muneeba", "nadia", "najma", "palwasha", "rimsha", "rida",
+    "rukhsar", "sadia", "sahar", "sawera", "shabnam", "shazia", "sobia", "syeda",
+    "tahira", "tania", "uzma", "wardah", "yumna", "zahra", "zara", "zoha",
+    "emily", "emma", "olivia", "sophia", "jessica", "jennifer", "amanda", "ashley",
+    "elizabeth", "katherine", "kate", "anna", "lisa", "mary", "patricia", "linda",
+    "nancy", "karen", "betty", "helen", "sandra", "donna", "carol", "ruth", "sharon",
+    "michelle", "laura", "nicole", "rachel", "rebecca", "samantha", "catherine",
+    "christine", "amy", "deborah", "stephanie", "diana", "andrea", "natalie", "julia",
+    "victoria", "priya", "anita", "sunita", "neha", "pooja", "shreya", "divya", "kavya",
+    "riya", "meera", "megha", "tara", "nisha", "swati", "deepa", "jyoti", "rekha"
+  ]);
+
+  const masculineNames = new Set([
+    "ali", "ahmed", "muhammad", "mohammad", "hussain", "hassan", "hamza", "bilal",
+    "usman", "umar", "omar", "asad", "fahad", "faisal", "adnan", "kamran", "imran",
+    "kashif", "khalid", "tariq", "wahab", "waqar", "zubair", "junaid", "danish",
+    "raja", "rana", "arif", "amir", "aamir", "raza", "shahid", "shoaib", "saad",
+    "talha", "usama", "yasir", "zeeshan", "nabeel", "noman", "owais", "qasim",
+    "rehan", "saqib", "tahir", "taimur", "wali", "zahid", "zain", "john", "james",
+    "robert", "michael", "william", "david", "richard", "joseph", "thomas", "charles",
+    "daniel", "matthew", "anthony", "mark", "donald", "steven", "andrew", "paul",
+    "joshua", "kenneth", "kevin", "brian", "george", "timothy", "ronald", "edward",
+    "abdul", "hayy", "abdulhayy", "linus", "torvalds"
+  ]);
+
+  if (feminineNames.has(first)) return true;
+  if (masculineNames.has(first)) return false;
+  if (first.endsWith("ina") || first.endsWith("eena") || first.endsWith("isha") || first.endsWith("iya") || first.endsWith("aya")) return true;
+  return false;
+}
+
+function _genderSwapText(text) {
+  const swaps = [
+    ["Sharma Ji Ka Beta", "Sharma Ji Ki Beti"],
+    ["Sharma ji ka beta", "Sharma ji ki beti"],
+    ["Ladki walay", "Larke walay"],
+    ["ladki walay", "larke walay"],
+    ["Ladki walon", "Larke walon"],
+    ["ladki walon", "larke walon"],
+    ["damad ji", "bahu ji"],
+    ["Damad", "Bahu"],
+    ["damad", "bahu"],
+    [" larka ", " larki "],
+    [" Larka ", " Larki "],
+    ["Pappu", "Guddi"],
+    [" beta ", " beti "],
+    [" Beta ", " Beti "],
+    ["Beta,", "Beti,"],
+    ["beta,", "beti,"],
+    ["Beta!", "Beti!"],
+    ["beta!", "beti!"],
+    ["Beta.", "Beti."],
+    ["beta.", "beti."],
+    [" biwi ", " shohar "],
+    [" Biwi ", " Shohar "],
+    ["biwi ke", "shohar ke"],
+    ["Biwi ke", "Shohar ke"],
+    ["biwi ko", "shohar ko"],
+    ["Biwi ko", "Shohar ko"],
+    ["biwi ki", "shohar ki"],
+    ["Biwi ki", "Shohar ki"],
+    [" chacha ", " khala "],
+    [" Chacha ", " Khala "],
+    [" bhai ", " baji "],
+    [" Bhai ", " Baji "],
+    ["karta hai", "karti hai"],
+    ["kehta hai", "kehti hai"],
+    ["maarta hai", "maarti hai"],
+    ["karta phirta", "karti phirti"],
+    ["raha hai", "rahi hai"],
+    ["bola hua", "boli hui"],
+    ["deta hai", "deti hai"],
+    ["nikla", "nikli"],
+    ["ustaad", "ustaani"],
+    ["Ustaad", "Ustaani"],
+    [" banda ", " bandi "],
+    [" Banda ", " Bandi "],
+    ["RedBull Damad", "RedBull Bahu"],
+  ];
+  for (const [old, rep] of swaps) {
+    text = text.split(old).join(rep);
+  }
+  return text;
+}
+
+function _applyGenderSwap(data) {
+  for (const key of ["title", "gotra", "auntyVerdict"]) {
+    if (data[key] && typeof data[key] === "string") {
+      data[key] = _genderSwapText(data[key]);
+    }
+  }
+  for (const key of ["habits", "redFlags"]) {
+    if (Array.isArray(data[key])) {
+      data[key] = data[key].map(item => _genderSwapText(item));
+    }
+  }
+  return data;
+}
+
 function generateFallbackRoast(profile, repos = []) {
   const publicRepos = profile.public_repos || 0;
   const followers = profile.followers || 0;
@@ -233,7 +342,14 @@ function generateFallbackRoast(profile, repos = []) {
   }
 
   const customized = JSON.parse(JSON.stringify(baseTemplate));
-  const candidateName = profile.name || profile.login || "Beta";
+  let candidateName = profile.name || profile.login || "Beta";
+  const isFemale = _detectLikelyFemale(candidateName);
+
+  if (isFemale) {
+    candidateName = candidateName !== "Beta" ? candidateName : "Beti";
+    _applyGenderSwap(customized);
+  }
+
   customized.candidateName = candidateName;
   customized.topLanguage = topLang;
   customized.totalStars = stars;
@@ -243,16 +359,16 @@ function generateFallbackRoast(profile, repos = []) {
 
   if (publicRepos > 0) {
     customized.assets = [
-      `${publicRepos} Public Repos (Dahej ka total saamaan)`,
+      `${publicRepos} Public Repos (${isFemale ? 'Jahez' : 'Dahej'} ka total saamaan)`,
       `${stars} Total Stars (Mohallay mein izzat aur shashkay)`,
-      `${followers} Followers vs ${following} Following (${followers > following ? 'Mashoor Celebrity Coder' : 'Sab ko follow karta phirta hai bechara'})`,
+      `${followers} Followers vs ${following} Following (${followers > following ? 'Mashoor Celebrity Coder' : 'Sab ko follow ' + (isFemale ? 'karti phirti hai bechari' : 'karta phirta hai bechara')})`,
       `Kamaai Ka Jugaad: ${topLang} (${topLang === 'JavaScript' ? 'Full nakhray baaz tech' : 'Mehnati majdoor coder'})`
     ];
   } else {
     customized.assets = [
       "0 Public Repos (Ghar ki almaari bilkul khali hai)",
       "0 Stars (Mohallay ke bachon ne bhi like nahi kiya)",
-      "Private repos ka bahana (Kehta hai confidential scene hai)",
+      `Private repos ka bahana (${isFemale ? 'Kehti' : 'Kehta'} hai confidential scene hai)`,
       "Zero verifiable hunar (Bas baatein hi baatein)"
     ];
   }
@@ -267,3 +383,4 @@ function generateFallbackRoast(profile, repos = []) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { RISHTA_FALLBACKS, generateFallbackRoast };
 }
+

@@ -205,10 +205,129 @@ RISHTA_FALLBACKS = {
     }
 }
 
+def _detect_likely_female(name: str) -> bool:
+    """
+    Simple heuristic to detect if a name is likely female.
+    Uses common South Asian / global feminine name patterns.
+    """
+    if not name:
+        return False
+    first = name.strip().split()[0].lower()
+    # Common feminine suffixes in South Asian names
+    feminine_suffixes = ("a", "i", "ah", "ha", "na", "ya", "ra", "za", "een", "een", "in")
+    # Explicitly feminine first names (common Pakistani/South Asian + global)
+    feminine_names = {
+        "fatima", "ayesha", "aisha", "zainab", "maryam", "hira", "sana", "sara", "sarah",
+        "mahnoor", "noor", "amna", "bushra", "rabia", "huma", "nimra", "iqra", "kinza",
+        "arooj", "mehwish", "sidra", "anum", "laiba", "naila", "maria", "samia", "saima",
+        "sumaya", "zunaira", "aleena", "alina", "anaya", "dua", "emaan", "esha", "fariha",
+        "hafsa", "hamna", "hooria", "huriya", "javeria", "khadija", "komal", "maira",
+        "malika", "minahil", "muneeba", "nadia", "najma", "palwasha", "rimsha", "rida",
+        "rukhsar", "sadia", "sahar", "sawera", "shabnam", "shazia", "sobia", "syeda",
+        "tahira", "tania", "uzma", "wardah", "yumna", "zahra", "zara", "zoha",
+        # Global common feminine names
+        "emily", "emma", "olivia", "sophia", "jessica", "jennifer", "amanda", "ashley",
+        "elizabeth", "katherine", "kate", "anna", "lisa", "mary", "patricia", "linda",
+        "nancy", "karen", "betty", "helen", "sandra", "donna", "carol", "ruth", "sharon",
+        "michelle", "laura", "sarah", "nicole", "rachel", "rebecca", "samantha", "catherine",
+        "christine", "amy", "deborah", "stephanie", "diana", "andrea", "natalie", "julia",
+        "victoria", "priya", "anita", "sunita", "neha", "pooja", "shreya", "divya", "kavya",
+        "riya", "meera", "megha", "tara", "nisha", "swati", "deepa", "jyoti", "rekha"
+    }
+    # Explicitly masculine names to prevent false positives
+    masculine_names = {
+        "ali", "ahmed", "muhammad", "mohammad", "hussain", "hassan", "hamza", "bilal",
+        "usman", "umar", "omar", "asad", "fahad", "faisal", "adnan", "kamran", "imran",
+        "kashif", "khalid", "tariq", "wahab", "waqar", "zubair", "junaid", "danish",
+        "raja", "rana", "arif", "amir", "aamir", "raza", "shahid", "shoaib", "saad",
+        "talha", "usama", "yasir", "zeeshan", "nabeel", "noman", "owais", "qasim",
+        "rehan", "saqib", "tahir", "taimur", "wali", "zahid", "zain", "john", "james",
+        "robert", "michael", "william", "david", "richard", "joseph", "thomas", "charles",
+        "daniel", "matthew", "anthony", "mark", "donald", "steven", "andrew", "paul",
+        "joshua", "kenneth", "kevin", "brian", "george", "timothy", "ronald", "edward",
+        "abdul", "hayy", "abdulhayy", "linus", "torvalds"
+    }
+
+    if first in feminine_names:
+        return True
+    if first in masculine_names:
+        return False
+    # Heuristic: names ending in common feminine suffixes
+    if first.endswith(("ina", "eena", "isha", "isha", "iya", "aya")):
+        return True
+    return False
+
+
+def _gender_swap_text(text: str) -> str:
+    """Swap masculine Desi terms to feminine equivalents in a string."""
+    swaps = [
+        # Order matters: longer patterns first to avoid partial matches
+        ("Sharma Ji Ka Beta", "Sharma Ji Ki Beti"),
+        ("Sharma ji ka beta", "Sharma ji ki beti"),
+        ("Ladki walay", "Larke walay"),
+        ("ladki walay", "larke walay"),
+        ("Ladki walon", "Larke walon"),
+        ("ladki walon", "larke walon"),
+        ("damad ji", "bahu ji"),
+        ("Damad", "Bahu"),
+        ("damad", "bahu"),
+        (" larka ", " larki "),
+        (" Larka ", " Larki "),
+        ("Pappu", "Guddi"),
+        (" beta ", " beti "),
+        (" Beta ", " Beti "),
+        ("Beta,", "Beti,"),
+        ("beta,", "beti,"),
+        ("Beta!", "Beti!"),
+        ("beta!", "beti!"),
+        ("Beta.", "Beti."),
+        ("beta.", "beti."),
+        (" biwi ", " shohar "),
+        (" Biwi ", " Shohar "),
+        ("biwi ke", "shohar ke"),
+        ("Biwi ke", "Shohar ke"),
+        ("biwi ko", "shohar ko"),
+        ("Biwi ko", "Shohar ko"),
+        ("biwi ki", "shohar ki"),
+        ("Biwi ki", "Shohar ki"),
+        (" chacha ", " khala "),
+        (" Chacha ", " Khala "),
+        (" bhai ", " baji "),
+        (" Bhai ", " Baji "),
+        ("karta hai", "karti hai"),
+        ("kehta hai", "kehti hai"),
+        ("maarta hai", "maarti hai"),
+        ("karta phirta", "karti phirti"),
+        ("raha hai", "rahi hai"),
+        ("bola hua", "boli hui"),
+        ("deta hai", "deti hai"),
+        ("nikla", "nikli"),
+        ("ustaad", "ustaani"),
+        ("Ustaad", "Ustaani"),
+        (" banda ", " bandi "),
+        (" Banda ", " Bandi "),
+        ("RedBull Damad", "RedBull Bahu"),
+    ]
+    for old, new in swaps:
+        text = text.replace(old, new)
+    return text
+
+
+def _apply_gender_swap(data: dict) -> dict:
+    """Apply feminine gender swaps to all text fields in fallback roast dict."""
+    for key in ("title", "gotra", "aunty_verdict"):
+        if key in data and isinstance(data[key], str):
+            data[key] = _gender_swap_text(data[key])
+    for key in ("habits", "red_flags"):
+        if key in data and isinstance(data[key], list):
+            data[key] = [_gender_swap_text(item) for item in data[key]]
+    return data
+
 
 def generate_fallback_roast(profile: dict, repos: list = None) -> dict:
     """
     Intelligent Rule-Matcher in Python with maximum Desi & Pakistani slangs.
+    Gender-aware: detects likely female candidates and swaps to feminine terms.
     """
     if repos is None:
         repos = []
@@ -257,6 +376,12 @@ def generate_fallback_roast(profile: dict, repos: list = None) -> dict:
     customized = copy.deepcopy(base)
 
     candidate_name = profile.get("name") or profile.get("login") or "Beta"
+    is_female = _detect_likely_female(candidate_name)
+
+    if is_female:
+        candidate_name = candidate_name if candidate_name != "Beta" else "Beti"
+        customized = _apply_gender_swap(customized)
+
     customized["candidateName"] = candidate_name
     customized["topLanguage"] = top_lang
     customized["totalStars"] = stars
@@ -267,16 +392,16 @@ def generate_fallback_roast(profile: dict, repos: list = None) -> dict:
     # Slang-packed Assets list
     if public_repos > 0:
         customized["assets"] = [
-            f"{public_repos} Public Repos (Dahej ka total saamaan)",
+            f"{public_repos} Public Repos ({'Jahez' if is_female else 'Dahej'} ka total saamaan)",
             f"{stars} Total Stars (Mohallay mein izzat aur shashkay)",
-            f"{followers} Followers vs {following} Following ({'Mashoor Celebrity Coder' if followers > following else 'Sab ko follow karta phirta hai bechara'})",
+            f"{followers} Followers vs {following} Following ({'Mashoor Celebrity Coder' if followers > following else 'Sab ko follow ' + ('karti' if is_female else 'karta') + ' phirti hai ' + ('bechari' if is_female else 'bechara')})",
             f"Kamaai Ka Jugaad: {top_lang} ({'Full nakhray baaz tech' if top_lang == 'JavaScript' else 'Mehnati majdoor coder'})"
         ]
     else:
         customized["assets"] = [
             "0 Public Repos (Ghar ki almaari bilkul khali hai)",
             "0 Stars (Mohallay ke bachon ne bhi like nahi kiya)",
-            "Private repos ka bahana (Kehta hai confidential scene hai)",
+            f"Private repos ka bahana ({'Kehti' if is_female else 'Kehta'} hai confidential scene hai)",
             "Zero verifiable hunar (Bas baatein hi baatein)"
         ]
 
@@ -301,3 +426,4 @@ def generate_fallback_roast(profile: dict, repos: list = None) -> dict:
         "publicRepos": customized["publicRepos"],
         "followers": customized["followers"]
     }
+
