@@ -285,7 +285,7 @@ btnDownload.addEventListener('click', async () => {
     const canvas = await html2canvas(biodataCard, {
       scale: 2, // High resolution for mobile/retina
       useCORS: true,
-      backgroundColor: '#fffdf9',
+      backgroundColor: '#faf5ed',
       logging: false
     });
 

@@ -10,7 +10,12 @@
   <meta property="og:type" content="website">
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2226%22 font-size=%2226%22>🧕</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧕</text></svg>">
+
+  <!-- Google Fonts: Space Grotesk & Outfit for punchy Neobrutalism -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css">
@@ -20,20 +25,54 @@
 </head>
 <body>
 
-  <!-- Top Announcement Header -->
+  <!-- Ambient background glow orbs for glassmorphism refraction -->
+  <div class="glass-ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <div class="ambient-orb orb-4"></div>
+  </div>
+
+  <!-- Neobrutalist Marquee Warning Tape -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>⚠️ 100% HALAL DEVELOPER ROASTS</span>
+      <span class="star">✦</span>
+      <span>🧕 RISHTA AUNTY BUREAU</span>
+      <span class="star">✦</span>
+      <span>⚡ GDG LIVE PAKISTAN</span>
+      <span class="star">✦</span>
+      <span>☕ CHAI AUR CODE EP#2</span>
+      <span class="star">✦</span>
+      <span>🎉 MAKE INTERNET FUN</span>
+      <span class="star">✦</span>
+      <span>⚠️ 100% HALAL DEVELOPER ROASTS</span>
+      <span class="star">✦</span>
+      <span>🧕 RISHTA AUNTY BUREAU</span>
+      <span class="star">✦</span>
+      <span>⚡ GDG LIVE PAKISTAN</span>
+      <span class="star">✦</span>
+      <span>☕ CHAI AUR CODE EP#2</span>
+      <span class="star">✦</span>
+      <span>🎉 MAKE INTERNET FUN</span>
+      <span class="star">✦</span>
+    </div>
+  </div>
+
+  <!-- Top Announcement Header (Neo-Glass) -->
   <header class="top-header">
     <div class="header-container">
       <div class="brand-wrap">
         <div class="brand-icon">🧕</div>
         <div class="brand-title">
-          <h1>Rishta Aunty Matrimonial Bureau</h1>
-          <p>Connecting Code with Qismat • Verified Desi Developer Biodatas</p>
+          <h1>Rishta Aunty</h1>
+          <p class="brand-tagline">Matrimonial Bureau for Coders • Connecting Code with Qismat</p>
         </div>
       </div>
       <div class="badge-group">
-        <span class="tag-badge">☕ Chai aur Code Ep#2</span>
-        <span class="tag-badge">⚡ GDG Live Pakistan</span>
-        <span class="tag-badge">🎉 Make Internet Fun</span>
+        <span class="tag-badge badge-yellow">☕ Chai aur Code #2</span>
+        <span class="tag-badge badge-green">⚡ GDG Live PK</span>
+        <span class="tag-badge badge-pink">🎉 Make Internet Fun</span>
       </div>
     </div>
   </header>
@@ -41,10 +80,14 @@
   <!-- Main App Shell -->
   <main class="main-content">
 
-    <!-- Search Section -->
+    <!-- Search Section (Neo-Glass Container) -->
     <section class="search-card">
-      <h2 class="search-title">Rishta Dekhne Aaye Hain Ya Sirf Timepass?</h2>
-      <p class="search-subtitle">GitHub username daalo aur dekho Aunty candidate ke kirdaar aur code ka kya hasharr karti hain!</p>
+      <div class="card-sticker sticker-tape">⚠️ OFFICIAL DOSSIER</div>
+      
+      <div class="search-heading-group">
+        <h2 class="search-title">Rishta Dekhne Aaye Hain Ya Sirf Timepass?</h2>
+        <p class="search-subtitle">GitHub username daalo aur dekho Aunty candidate ke kirdaar aur code ka kya hasharr karti hain!</p>
+      </div>
 
       <form id="roast-form" class="search-form">
         <div class="input-wrapper">
@@ -55,116 +98,138 @@
             class="search-input" 
             placeholder="e.g. torvalds, gaearon, ya apna handle" 
             autocomplete="off" 
+            spellcheck="false"
             required
           >
         </div>
         <button type="submit" id="submit-btn" class="btn-roast">
-          <span>🔍 Kundali Nikalo (Full Shashkay)</span>
+          <span>🔍 Kundali Nikalo</span>
+          <span class="btn-subtext">(Full Shashkay)</span>
         </button>
       </form>
 
       <!-- Quick pick chips for judges/live audience demo -->
       <div class="quick-picks">
-        <span class="quick-picks-label">Live Demo Shashkay (Click to Roast):</span>
-        <button type="button" class="chip" data-user="torvalds">🐧 Linus (Linux King)</button>
-        <button type="button" class="chip" data-user="gaearon">⚛️ Dan (React Ka Ustaad)</button>
-        <button type="button" class="chip" data-user="shadcn">🎨 shadcn (UI Ka Badshah)</button>
-        <button type="button" class="chip" data-user="sindresorhus">📦 Sindre (npm Sultan)</button>
-        <button type="button" class="chip" data-user="leerob">▲ Lee (Vercel Cheetah)</button>
+        <span class="quick-picks-label">⚡ Live Demo Profiles:</span>
+        <div class="chips-container">
+          <button type="button" class="chip chip-cyan" data-user="torvalds">🐧 Linus (Linux King)</button>
+          <button type="button" class="chip chip-pink" data-user="gaearon">⚛️ Dan (React Ustaad)</button>
+          <button type="button" class="chip chip-yellow" data-user="shadcn">🎨 shadcn (UI Badshah)</button>
+          <button type="button" class="chip chip-green" data-user="sindresorhus">📦 Sindre (npm Sultan)</button>
+          <button type="button" class="chip chip-purple" data-user="leerob">▲ Lee (Vercel Lead)</button>
+        </div>
       </div>
     </section>
 
     <!-- Loading Screen with Aunty Quips -->
     <section id="loading-box" class="loading-box">
-      <div class="tea-spinner">☕</div>
-      <div id="loading-quote" class="loading-quote">"Chashma theek kar rahi hoon, lagta hai chuss maari hui hai code mein..."</div>
-      <p class="loading-subtext">Rishta Aunty is inspecting repos, red flags aur khandani siyappay...</p>
+      <div class="loading-inner-glass">
+        <div class="tea-spinner">☕</div>
+        <div id="loading-quote" class="loading-quote">"Chashma theek kar rahi hoon, lagta hai chuss maari hui hai code mein..."</div>
+        <p class="loading-subtext">Rishta Aunty is inspecting repos, red flags aur khandani siyappay...</p>
+        <div class="loading-progress-bar">
+          <div class="loading-progress-stripe"></div>
+        </div>
+      </div>
     </section>
 
     <!-- Matrimonial Biodata Card (The Stage Centerpiece) -->
     <section id="card-section" class="card-section">
       <div id="biodata-card" class="card-frame">
         
-        <!-- Ornate Golden Corners -->
-        <svg class="corner-ornament top-left" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
-          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
-          <circle cx="25" cy="25" r="4" fill="#b45309"/>
-        </svg>
-        <svg class="corner-ornament top-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
-          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
-          <circle cx="25" cy="25" r="4" fill="#b45309"/>
-        </svg>
-        <svg class="corner-ornament bottom-left" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
-          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
-          <circle cx="25" cy="25" r="4" fill="#b45309"/>
-        </svg>
-        <svg class="corner-ornament bottom-right" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 90V10H90" stroke="#b45309" stroke-width="4"/>
-          <path d="M25 75V25H75" stroke="#d97706" stroke-width="2"/>
-          <circle cx="25" cy="25" r="4" fill="#b45309"/>
-        </svg>
+        <!-- Retro Window Header Bar -->
+        <div class="retro-window-header">
+          <div class="retro-window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="retro-window-title">MATRIMONIAL_BIODATA_v2.0.exe</div>
+          <div class="retro-window-badge">CONFIDENTIAL</div>
+        </div>
 
-        <!-- Official Status Stamp -->
+        <!-- Official Status Stamp (Neobrutalist Slam Stamp) -->
         <div id="card-stamp" class="stamp stamp-rejected">SCENE OFF HAI ❌</div>
 
         <!-- Matrimonial Header -->
         <div class="biodata-banner">
-          <div class="bismillah-text">✦ BISMILLAH-IR-RAHMAN-IR-RAHEEM ✦</div>
+          <div class="bismillah-badge">✦ BISMILLAH-IR-RAHMAN-IR-RAHEEM ✦</div>
           <h2 class="biodata-main-title">OFFICIAL RISHTA BIODATA</h2>
-          <span class="biodata-sub-badge">100% Halal Verified by Rishta Aunty Bureau</span>
+          <div class="verified-pill">
+            <span>🛡️ 100% Halal Verified</span>
+            <span class="dot-sep">•</span>
+            <span>Rishta Aunty Matchmaking Bureau</span>
+          </div>
         </div>
 
         <!-- Candidate Profile Top -->
         <div class="candidate-header">
           <div class="avatar-wrapper">
             <img id="card-avatar" class="candidate-avatar" src="" alt="Candidate Avatar">
+            <div class="avatar-star-badge">💍</div>
           </div>
           <div class="candidate-meta">
-            <h3 id="card-name" class="candidate-name">Candidate Name</h3>
-            <p id="card-handle" class="candidate-handle">@github_handle</p>
+            <div class="name-row">
+              <h3 id="card-name" class="candidate-name">Candidate Name</h3>
+              <span id="card-handle" class="candidate-handle">@github_handle</span>
+            </div>
             <p id="card-title" class="candidate-title">Senior Abandoned Repo Architect</p>
             <p id="card-gotra" class="candidate-gotra">Node_Modules Biradari (JavaScript Brahmins)</p>
           </div>
         </div>
 
-        <!-- Dahej & Assets Grid -->
+        <!-- Dahej & Assets Grid (Candy Glass Tiles) -->
         <div class="assets-grid">
-          <div class="asset-box">
-            <div class="asset-label">Dahej (Public Repos)</div>
+          <div class="asset-box asset-yellow">
+            <div class="asset-header">
+              <span class="asset-icon">📦</span>
+              <span class="asset-label">Dahej (Public Repos)</span>
+            </div>
             <div id="stat-repos" class="asset-value">0</div>
             <div class="asset-sub">Kitna maal jama kiya?</div>
           </div>
-          <div class="asset-box">
-            <div class="asset-label">Khandani Izzat (Stars)</div>
+          
+          <div class="asset-box asset-pink">
+            <div class="asset-header">
+              <span class="asset-icon">⭐</span>
+              <span class="asset-label">Khandani Izzat (Stars)</span>
+            </div>
             <div id="stat-stars" class="asset-value">0 ★</div>
             <div class="asset-sub">Mohallay ke shashkay</div>
           </div>
-          <div class="asset-box">
-            <div class="asset-label">Milansar (Followers)</div>
+          
+          <div class="asset-box asset-cyan">
+            <div class="asset-header">
+              <span class="asset-icon">👥</span>
+              <span class="asset-label">Milansar (Followers)</span>
+            </div>
             <div id="stat-followers" class="asset-value">0</div>
             <div class="asset-sub" id="stat-ratio-sub">Followers vs Following</div>
           </div>
-          <div class="asset-box">
-            <div class="asset-label">Kamaai Ka Jugaad</div>
+          
+          <div class="asset-box asset-green">
+            <div class="asset-header">
+              <span class="asset-icon">🛠️</span>
+              <span class="asset-label">Kamaai Ka Jugaad</span>
+            </div>
             <div id="stat-tech" class="asset-value">Code</div>
             <div class="asset-sub">Primary Tech Stack</div>
           </div>
         </div>
 
         <!-- Section 1: Daily Habits / Domestic Life -->
-        <div class="biodata-section">
-          <h4 class="section-title"><span>🏠</span> Ghar Ke Kaam Ya Sirf Topi Drama?</h4>
+        <div class="biodata-section habits-section">
+          <div class="section-tag tag-blue">🏠 DOMESTIC LIFE</div>
+          <h4 class="section-title">Ghar Ke Kaam Ya Sirf Topi Drama?</h4>
           <ul id="card-habits" class="biodata-list">
             <!-- Dynamically populated -->
           </ul>
         </div>
 
         <!-- Section 2: Red Flags -->
-        <div class="biodata-section">
-          <h4 class="section-title"><span>🚩</span> Rishtey Ke Red Flags & Khandani Siyappay</h4>
+        <div class="biodata-section red-flags-section">
+          <div class="section-tag tag-red">🚩 WARNING SIGNS</div>
+          <h4 class="section-title">Rishtey Ke Red Flags & Khandani Siyappay</h4>
           <ul id="card-red-flags" class="biodata-list red-flag-list">
             <!-- Dynamically populated -->
           </ul>
@@ -172,8 +237,10 @@
 
         <!-- Section 3: Aunty's Verdict -->
         <div class="verdict-box">
-          <div class="verdict-title">
-            <span>🧕</span> Rishta Aunty Ka Final Hukumnama (Thoko Taali):
+          <div class="verdict-header">
+            <span class="verdict-icon">🧕</span>
+            <span class="verdict-tag">AUNTY'S FINAL HUKUMNAMA</span>
+            <span class="verdict-badge">UNFILTERED</span>
           </div>
           <p id="card-verdict" class="verdict-text">
             "Beta has 47 repos, 46 abandoned! Ghar ka kaam nahi karta, only README..."
@@ -183,30 +250,39 @@
         <!-- Section 4: Rishta Match Score -->
         <div class="meter-container">
           <div class="meter-info">
-            <div class="meter-title">Rishta Compatibility Score (Scene On Ya Off?)</div>
-            <div id="meter-status-text" class="meter-rating-text">Scene Off Hai ❌</div>
+            <div class="meter-header-row">
+              <span class="meter-title">Rishta Compatibility Score</span>
+              <span class="meter-status-pill" id="meter-status-text">Scene Off Hai ❌</span>
+            </div>
             <div class="meter-progress-track">
               <div id="meter-fill" class="meter-progress-fill" style="width: 35%;"></div>
             </div>
           </div>
-          <div id="meter-percentage" class="meter-percentage">35%</div>
+          <div class="meter-score-wrap">
+            <span id="meter-percentage" class="meter-percentage">35%</span>
+            <span class="meter-score-label">MATCH</span>
+          </div>
         </div>
 
       </div>
 
-      <!-- Stage Demo Actions -->
+      <!-- Stage Demo Actions (Neo-Tactile Buttons) -->
       <div class="card-actions">
         <button id="btn-download" class="action-btn btn-download">
-          <span>📸 Download Biodata Card (Status Ready)</span>
+          <span class="btn-icon">📸</span>
+          <span>Download Biodata Card (PNG)</span>
         </button>
         <button id="btn-copy" class="action-btn btn-copy">
-          <span>📋 Copy Roast (Direct Family Group)</span>
+          <span class="btn-icon">📋</span>
+          <span>Copy Roast (Family Group)</span>
         </button>
         <button id="btn-twitter" class="action-btn btn-twitter">
-          <span>🐦 Post on X (Full Zillat)</span>
+          <span class="btn-icon">🐦</span>
+          <span>Post on X (Full Zillat)</span>
         </button>
         <button id="btn-whatsapp" class="action-btn btn-whatsapp">
-          <span>💬 Share to WhatsApp (Scene On)</span>
+          <span class="btn-icon">💬</span>
+          <span>Share to WhatsApp</span>
         </button>
       </div>
 
@@ -214,18 +290,21 @@
 
   </main>
 
-  <!-- Toast Notification -->
+  <!-- Toast Notification (Neobrutalist Glass Alert) -->
   <div id="toast" class="toast">
-    <span>✅</span>
+    <span class="toast-icon">✨</span>
     <span id="toast-text">Roast copied to clipboard!</span>
   </div>
 
   <!-- Footer -->
   <footer class="page-footer">
-    <p>Made with ❤️ & ☕ for <strong>GDG Live Pakistan — Chai aur Code Ep#2</strong> ("Make Internet Fun")</p>
-    <p style="margin-top: 0.35rem; font-size: 0.8rem; color: #9ca3af;">
-      Powered by xAI Grok & GitHub Public API • All roasts are halal and purely developer satire.
-    </p>
+    <div class="footer-inner">
+      <div class="footer-badge">🧕 RISHTA AUNTY BUREAU</div>
+      <p>Made with ❤️ & ☕ for <strong>GDG Live Pakistan — Chai aur Code Ep#2</strong> ("Make Internet Fun")</p>
+      <p class="footer-subtext">
+        Powered by xAI Grok & GitHub Public API • 100% Halal Developer Satire. Zero JS Frameworks.
+      </p>
+    </div>
   </footer>
 
   <!-- Scripts -->
