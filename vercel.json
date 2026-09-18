@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/api/roast", "destination": "/api/roast" },
     { "source": "/api/health", "destination": "/api/health" },
+    { "source": "/api/models", "destination": "/api/index" },
     { "source": "/api/(.*)", "destination": "/api/index" }
   ]
 }

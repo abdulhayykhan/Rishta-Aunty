@@ -28,6 +28,19 @@ def health():
         "groq_configured": groq_ready
     })
 
+@app.route("/api/models", methods=["GET"])
+def groq_models():
+    api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROQ_KEY") or os.getenv("GROQ_API_TOKEN") or os.getenv("GROQ_API")
+    if api_key:
+        api_key = api_key.strip().strip("'\"")
+    if not api_key:
+        return jsonify({"error": "No API key"})
+    try:
+        r = requests.get("https://api.groq.com/openai/v1/models", headers={"Authorization": f"Bearer {api_key}"}, timeout=5)
+        return jsonify(r.json())
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 @app.route("/api/roast", methods=["POST", "OPTIONS"])
 @app.route("/roast", methods=["POST", "OPTIONS"])
 @app.route("/api/index", methods=["GET", "POST", "OPTIONS"])
