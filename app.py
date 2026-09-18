@@ -106,15 +106,14 @@ def roast():
     if api_key:
         api_key = api_key.strip().strip("'\"")
 
-    raw_model = (os.getenv("GROQ_MODEL") or "").strip().strip("'\"")
-    if not raw_model or raw_model in ["-", "undefined", "null", "none", ""]:
-        groq_model = "llama-3.1-8b-instant"
-    else:
-        groq_model = raw_model
-
     if not api_key:
         print("[Rishta Aunty Python] No GROQ_API_KEY detected in environment; returning fallback roast.")
         return jsonify({"source": "fallback", "data": fallback_roast})
+
+    raw_model = (os.getenv("GROQ_MODEL") or "").strip().strip("'\"")
+    candidate_models = ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"]
+    if raw_model and raw_model not in ["-", "undefined", "null", "none", "", "llama-3.3-70b-versatile", "llama-3.1-8b-instant"]:
+        candidate_models.insert(0, raw_model)
 
     api_url = "https://api.groq.com/openai/v1/chat/completions"
 
@@ -168,50 +167,56 @@ def roast():
         "Write their matrimonial biodata roast JSON now."
     )
 
-    try:
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}"
-        }
-        body = {
-            "model": groq_model,
-            "messages": [
-                {"role": "system", "content": system_instruction},
-                {"role": "user", "content": user_prompt}
-            ],
-            "temperature": 0.8,
-            "response_format": {"type": "json_object"}
-        }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}"
+    }
 
-        # 12.0-second timeout for full Llama-3.3-70B JSON generation
-        resp = requests.post(api_url, headers=headers, json=body, timeout=12.0)
+    last_groq_error = None
+    for groq_model in candidate_models:
+        try:
+            body = {
+                "model": groq_model,
+                "messages": [
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": user_prompt}
+                ],
+                "temperature": 0.8,
+                "response_format": {"type": "json_object"}
+            }
 
-        if not resp.ok:
-            print(f"[Rishta Aunty Python] Groq API error: {resp.status_code} {resp.text}")
-            return jsonify({"source": "fallback", "groq_error": f"HTTP {resp.status_code}: {resp.text}", "data": fallback_roast})
+            resp = requests.post(api_url, headers=headers, json=body, timeout=12.0)
 
-        resp_data = resp.json()
-        content = resp_data.get("choices", [{}])[0].get("message", {}).get("content", "")
+            if not resp.ok:
+                last_groq_error = f"{groq_model}: HTTP {resp.status_code} {resp.text}"
+                continue
 
-        if not content:
-            return jsonify({"source": "fallback", "groq_error": "Empty content returned by Groq", "data": fallback_roast})
+            resp_data = resp.json()
+            content = resp_data.get("choices", [{}])[0].get("message", {}).get("content", "")
 
-        clean_json = re.sub(r"^```json\s*", "", content.strip(), flags=re.IGNORECASE)
-        clean_json = re.sub(r"```$", "", clean_json.strip()).strip()
-        parsed = json.loads(clean_json)
+            if not content:
+                last_groq_error = f"{groq_model}: Empty content returned"
+                continue
 
-        # Merge metadata
-        parsed["candidateName"] = profile.get("name") or profile.get("login")
-        parsed["topLanguage"] = languages_used[0] if languages_used else "Code"
-        parsed["totalStars"] = stars_total
-        parsed["publicRepos"] = profile.get("public_repos", 0)
-        parsed["followers"] = profile.get("followers", 0)
+            clean_json = re.sub(r"^```json\s*", "", content.strip(), flags=re.IGNORECASE)
+            clean_json = re.sub(r"```$", "", clean_json.strip()).strip()
+            parsed = json.loads(clean_json)
 
-        return jsonify({"source": "groq", "data": parsed})
+            # Merge metadata
+            parsed["candidateName"] = profile.get("name") or profile.get("login")
+            parsed["topLanguage"] = languages_used[0] if languages_used else "Code"
+            parsed["totalStars"] = stars_total
+            parsed["publicRepos"] = profile.get("public_repos", 0)
+            parsed["followers"] = profile.get("followers", 0)
 
-    except Exception as exc:
-        print(f"[Rishta Aunty Python] Groq error or timeout ({str(exc)}), using fallback matrix.")
-        return jsonify({"source": "fallback", "groq_error": str(exc), "data": fallback_roast})
+            return jsonify({"source": "groq", "model": groq_model, "data": parsed})
+
+        except Exception as exc:
+            last_groq_error = f"{groq_model}: {str(exc)}"
+            continue
+
+    print(f"[Rishta Aunty Python] All Groq models failed ({last_groq_error}), using fallback matrix.")
+    return jsonify({"source": "fallback", "groq_error": last_groq_error, "data": fallback_roast})
 
 
 if __name__ == "__main__":
