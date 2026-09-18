@@ -76,7 +76,11 @@ def roast():
     if api_key:
         api_key = api_key.strip().strip("'\"")
 
-    groq_model = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+    raw_model = (os.getenv("GROQ_MODEL") or "").strip().strip("'\"")
+    if not raw_model or raw_model in ["-", "undefined", "null", "none", ""]:
+        groq_model = "llama-3.1-8b-instant"
+    else:
+        groq_model = raw_model
 
     if not api_key:
         print("[Rishta Aunty Python] No GROQ_API_KEY detected in environment; returning fallback roast.")
