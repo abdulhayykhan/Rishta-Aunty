@@ -38,7 +38,7 @@ In Pakistani and South Asian culture, nothing strikes fear or excitement like **
              │
              ▼
 [Roast Engine Router]
-       ├──► Tier 1: xAI Grok (/api/roast) [4s timeout]
+       ├──► Tier 1: GroqCloud API (/api/roast) [4s timeout]
        └──► Tier 2: Instant Deterministic Fallback Matrix (fallbacks.py)
              │
              ▼
@@ -51,7 +51,7 @@ In Pakistani and South Asian culture, nothing strikes fear or excitement like **
 ```
 
 - **Frontend:** Pure Vanilla HTML5, CSS3, and Vanilla JS (Zero JS frameworks, zero build steps, 100% lightweight).
-- **Backend / AI:** Python (`Flask`, `requests`, `python-dotenv`) powered by xAI Grok API (`grok-2-latest`).
+- **Backend / AI:** Python (`Flask`, `requests`, `python-dotenv`) powered by GroqCloud LPU (`llama-3.3-70b-versatile`).
 - **Resilience Engine:** `fallbacks.py` & `fallbacks.js` (Dual-tier deterministic metric-matching rule engine).
 - **Export:** High-resolution PNG biodata card generation.
 
@@ -78,15 +78,15 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Visit **`http://localhost:5000`** in your browser. (The local Python fallback engine works 100% reliably even without Grok API keys!).
+Visit **`http://localhost:5000`** in your browser. (The local Python fallback engine works 100% reliably even without Groq API keys!).
 
-### Adding Grok API Key (Optional for AI-generated dynamic roasts):
+### Adding Groq API Key (Optional for AI-generated dynamic roasts):
 1. Copy `.env.example` to `.env`:
    ```bash
    cp .env.example .env
    ```
-2. Get an API key from [xAI Console](https://console.x.ai/).
-3. Add `GROK_API_KEY=your_key_here` to `.env`.
+2. Get a free API key from [GroqCloud Console](https://console.groq.com/).
+3. Add `GROQ_API_KEY=gsk_your_key_here` to `.env`.
 
 ---
 
@@ -98,7 +98,7 @@ The app includes `api/index.py` and `vercel.json` configured for Vercel's Python
 vercel
 ```
 
-Add `GROK_API_KEY` under **Project Settings > Environment Variables** on your Vercel Dashboard.
+Add `GROQ_API_KEY` under **Project Settings > Environment Variables** on your Vercel Dashboard.
 
 ---
 

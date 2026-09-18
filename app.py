@@ -70,21 +70,14 @@ def roast():
     # Deterministic fallback ready instantly
     fallback_roast = generate_fallback_roast(profile, repos)
 
-    api_key = os.getenv("GROK_API_KEY") or os.getenv("GROQ_API_KEY") or os.getenv("XAI_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROK_API_KEY")
+    groq_model = os.getenv("GROQ_MODEL") or os.getenv("GROK_MODEL") or "llama-3.3-70b-versatile"
 
     if not api_key:
-        print("[Rishta Aunty Python] No API key provided; returning fallback roast.")
+        print("[Rishta Aunty Python] No GROQ_API_KEY provided; returning fallback roast.")
         return jsonify({"source": "fallback", "data": fallback_roast})
 
-    # Auto-detect whether user provided a GroqCloud key (gsk_...) or xAI Grok key
-    is_groqcloud = api_key.startswith("gsk_") or bool(os.getenv("GROQ_API_KEY"))
-    
-    if is_groqcloud:
-        api_url = "https://api.groq.com/openai/v1/chat/completions"
-        model_name = os.getenv("GROK_MODEL") or os.getenv("GROQ_MODEL") or "llama-3.3-70b-versatile"
-    else:
-        api_url = "https://api.x.ai/v1/chat/completions"
-        model_name = os.getenv("GROK_MODEL") or "grok-2-latest"
+    api_url = "https://api.groq.com/openai/v1/chat/completions"
 
     # Prepare prompt metrics
     stars_total = sum((r.get("stargazers_count", 0) or 0) for r in repos)
@@ -142,7 +135,7 @@ def roast():
             "Authorization": f"Bearer {api_key}"
         }
         body = {
-            "model": model_name,
+            "model": groq_model,
             "messages": [
                 {"role": "system", "content": system_instruction},
                 {"role": "user", "content": user_prompt}
@@ -155,7 +148,7 @@ def roast():
         resp = requests.post(api_url, headers=headers, json=body, timeout=4.5)
 
         if not resp.ok:
-            print(f"[Rishta Aunty Python] Grok API error: {resp.status_code} {resp.text}")
+            print(f"[Rishta Aunty Python] Groq API error: {resp.status_code} {resp.text}")
             return jsonify({"source": "fallback", "data": fallback_roast})
 
         resp_data = resp.json()
@@ -175,10 +168,10 @@ def roast():
         parsed["publicRepos"] = profile.get("public_repos", 0)
         parsed["followers"] = profile.get("followers", 0)
 
-        return jsonify({"source": "grok", "data": parsed})
+        return jsonify({"source": "groq", "data": parsed})
 
     except Exception as exc:
-        print(f"[Rishta Aunty Python] Grok error or timeout ({str(exc)}), using fallback matrix.")
+        print(f"[Rishta Aunty Python] Groq error or timeout ({str(exc)}), using fallback matrix.")
         return jsonify({"source": "fallback", "data": fallback_roast})
 
 
